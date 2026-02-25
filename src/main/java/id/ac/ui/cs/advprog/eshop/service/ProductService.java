@@ -7,6 +7,6 @@ public interface ProductService {
     Product create(Product product);
     List<Product> findAll();
     Product findById(String id);
-    public Product update(Product product);
+    Product update(Product product);
     public void deleteProductById(String id);
 }
