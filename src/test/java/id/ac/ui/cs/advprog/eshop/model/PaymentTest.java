@@ -16,8 +16,6 @@ class PaymentTest {
         paymentData = new HashMap<>();
     }
 
-    // --- TEST UNTUK VOUCHER CODE ---
-
     @Test
     void testCreatePaymentVoucherSuccess() {
         paymentData.put("voucherCode", "ESHOP1234ABC5678");
@@ -45,8 +43,6 @@ class PaymentTest {
         Payment payment = new Payment("4", "VOUCHER", paymentData);
         assertEquals("REJECTED", payment.getStatus());
     }
-
-    // --- TEST UNTUK CASH ON DELIVERY (NPM GANJIL) ---
 
     @Test
     void testCreatePaymentCashOnDeliverySuccess() {

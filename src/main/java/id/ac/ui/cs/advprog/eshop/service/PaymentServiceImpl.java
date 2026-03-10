@@ -8,9 +8,11 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 @Service
 public class PaymentServiceImpl implements PaymentService {
+
     @Autowired
     private PaymentRepository paymentRepository;
 
@@ -19,21 +21,34 @@ public class PaymentServiceImpl implements PaymentService {
 
     @Override
     public Payment addPayment(Order order, String method, Map<String, String> paymentData) {
-        return null; // Akan diimplementasikan di fase GREEN
+        paymentData.put("orderId", order.getId());
+        Payment payment = new Payment(UUID.randomUUID().toString(), method, paymentData);
+        return paymentRepository.save(payment);
     }
 
     @Override
     public Payment setStatus(Payment payment, String status) {
-        return null; // Akan diimplementasikan di fase GREEN
+        payment.setStatus(status);
+        paymentRepository.save(payment);
+        String orderId = payment.getPaymentData().get("orderId");
+        if (orderId != null) {
+            if ("SUCCESS".equals(status)) {
+                orderService.updateStatus(orderId, "SUCCESS");
+            } else if ("REJECTED".equals(status)) {
+                orderService.updateStatus(orderId, "FAILED");
+            }
+        }
+
+        return payment;
     }
 
     @Override
     public Payment getPayment(String paymentId) {
-        return null; // Akan diimplementasikan di fase GREEN
+        return paymentRepository.findById(paymentId);
     }
 
     @Override
     public List<Payment> getAllPayments() {
-        return null; // Akan diimplementasikan di fase GREEN
+        return paymentRepository.findAll();
     }
 }
