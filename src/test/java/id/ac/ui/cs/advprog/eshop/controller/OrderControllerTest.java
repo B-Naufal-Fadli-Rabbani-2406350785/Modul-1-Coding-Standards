@@ -10,7 +10,9 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
+import id.ac.ui.cs.advprog.eshop.model.Product;
 
+import java.util.List;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -60,7 +62,15 @@ class OrderControllerTest {
 
     @Test
     void testPaymentOrderPage() throws Exception {
-        Order order = new Order("order-1", new ArrayList<>(), 123L, "Safira");
+        // PERBAIKAN: Buat daftar produk yang tidak kosong
+        List<Product> products = new ArrayList<>();
+        Product product = new Product();
+        product.setProductId("eb558e9f-1c39-460e-8860-71af6af63bd6");
+        product.setProductName("Sampo Cap Bambang");
+        product.setProductQuantity(2);
+        products.add(product);
+
+        Order order = new Order("order-1", products, 123L, "Safira");
         when(orderService.findById("order-1")).thenReturn(order);
 
         mockMvc.perform(get("/order/pay/order-1"))
@@ -71,7 +81,15 @@ class OrderControllerTest {
 
     @Test
     void testPaymentOrderPost() throws Exception {
-        Order order = new Order("order-1", new ArrayList<>(), 123L, "Safira");
+        // PERBAIKAN: Buat daftar produk yang tidak kosong
+        List<Product> products = new ArrayList<>();
+        Product product = new Product();
+        product.setProductId("eb558e9f-1c39-460e-8860-71af6af63bd6");
+        product.setProductName("Sampo Cap Bambang");
+        product.setProductQuantity(2);
+        products.add(product);
+
+        Order order = new Order("order-1", products, 123L, "Safira");
         when(orderService.findById("order-1")).thenReturn(order);
 
         Map<String, String> paymentData = new HashMap<>();
