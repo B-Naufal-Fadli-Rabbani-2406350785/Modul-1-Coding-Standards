@@ -15,21 +15,32 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public Order createOrder(Order order) {
-        return null; // Fase GREEN nanti kita isi
+        if (orderRepository.findById(order.getId()) == null) {
+            return orderRepository.save(order);
+        }
+        return null;
     }
 
     @Override
     public Order updateStatus(String orderId, String status) {
-        return null; // Fase GREEN nanti kita isi
+        Order order = orderRepository.findById(orderId);
+        if (order != null) {
+            Order newOrder = new Order(order.getId(), order.getProducts(),
+                    order.getOrderTime(), order.getAuthor(), status);
+            orderRepository.save(newOrder);
+            return newOrder;
+        } else {
+            throw new IllegalArgumentException();
+        }
     }
 
     @Override
     public Order findById(String orderId) {
-        return null; // Fase GREEN nanti kita isi
+        return orderRepository.findById(orderId);
     }
 
     @Override
     public List<Order> findAllByAuthor(String author) {
-        return null; // Fase GREEN nanti kita isi
+        return orderRepository.findAllByAuthor(author);
     }
 }
