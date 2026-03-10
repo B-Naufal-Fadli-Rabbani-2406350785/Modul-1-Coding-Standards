@@ -37,3 +37,31 @@ Loose Coupling & Fleksibilitas (DIP): Karena CarController sekarang bergantung p
 Sulit untuk Diuji (Pelanggaran DIP): Jika CarController bergantung langsung pada CarServiceImpl, kode tersebut akan terikat erat dengan logika aslinya. Jika kita ingin menulis Unit Test yang terisolasi untuk CarController, kita tidak akan bisa melakukan mocking pada service layer dengan mudah. Hal ini memaksa kita untuk melakukan integration test (menguji controller dan service secara bersamaan), bukan unit test yang sesungguhnya.
 
 Spaghetti Code (Pelanggaran SRP): Menyatukan banyak controller ke dalam satu file akan membuat file tersebut sangat panjang dan sulit dibaca. Ketika beberapa developer bekerja pada file yang sama untuk fitur yang berbeda, risiko terjadinya merge conflict akan meningkat drastis.
+
+
+Tutorial 4
+1) Reflect based on Percival (2017) proposed self-reflective questions (in “Principles and Best
+   Practice of Testing” submodule, chapter “Evaluating Your Testing Objectives”), whether this
+   TDD flow is useful enough for you or not. If not, explain things that you need to do next time
+   you make more tests.
+= Berdasarkan pengalaman saya mengerjakan tutorial ini, alur TDD (Red - Green - Refactor) sangat 
+membantu untuk mengcover kemungkinan case yang perlu kita buat. TDD memaksa saya untuk memikirkan 
+skenario penggunaan, validasi (seperti pada Order dan Payment), serta edge cases sebelum menulis 
+implementasi kodenya. Hal ini memberikan rasa aman karena saya tahu kode yang saya tulis di fase 
+'Green' sudah pasti teruji. Untuk ke depannya, saya perlu lebih teliti memikirkan unhappy path di 
+awal agar test coverage menjadi lebih komprehensif.
+
+2) You have created unit tests in Tutorial. Now reflect whether your tests have successfully
+   followed F.I.R.S.T. principle or not. If not, explain things that you need to do the next time you
+   create more tests.
+= Saya merasa unit test yang telah dibuat sudah cukup mengikuti prinsip F.I.R.S.T:
+- Fast: Tes berjalan sangat cepat karena menggunakan data mock (Mockito) dan tidak bergantung pada
+database eksternal.
+- Independent: Setiap tes tidak bergantung satu sama lain. Penggunaan anotasi @BeforeEach memastikan
+state (seperti list produk atau order) selalu di-reset ke kondisi awal sebelum tes baru dijalankan.
+- Repeatable: Tes dapat dijalankan di lingkungan mana pun (lokal maupun CI/CD) dan akan selalu 
+menghasilkan output yang konsisten.
+- Self-Validating: Tes sudah secara otomatis memvalidasi dirinya sendiri menggunakan assertEquals, 
+assertTrue, assertThrows, dll tanpa perlu inspeksi manual.
+- Timely: Tes ditulis tepat waktu, yaitu sesaat sebelum kode produksi (implementasi) ditulis, sesuai
+dengan alur TDD.
